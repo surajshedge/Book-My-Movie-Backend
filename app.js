@@ -34,33 +34,51 @@ app.get("/", (req, res) => {
 // // Handle preflight requests
 // app.options("*", cors(corsOptions));
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests from specified origins or if no origin is provided (e.g., for testing)
-    if (
-      !origin || 
-      /https:\/\/book-my-movie-backend-.*\.vercel\.app/.test(origin) || 
-      origin === "https://bookmymovietickets.netlify.app"
-      
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // Allow cookies and other credentials to be included
-  optionSuccessStatus: 200,
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     // Allow requests from specified origins or if no origin is provided (e.g., for testing)
+//     if (
+//       !origin ||
+//       /https:\/\/book-my-movie-backend-.*\.vercel\.app/.test(origin) ||
+//       origin === "https://bookmymovietickets.netlify.app"
+
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true, // Allow cookies and other credentials to be included
+//   optionSuccessStatus: 200,
+// };
+
+// // Apply CORS middleware
+// app.use(cors(corsOptions));
+// // Handle preflight requests
+// app.options("*", cors(corsOptions));
+
+const corsMiddleware = (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Adjust this if you need more control
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Max-Age", "1800");
+  res.setHeader("Access-Control-Allow-Headers", "content-type, authorization");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "PUT, POST, GET, DELETE, PATCH, OPTIONS"
+  );
+
+  // If this is a preflight request, respond with a success status
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+
+  next();
 };
 
-
-// Apply CORS middleware
-app.use(cors(corsOptions));
-// Handle preflight requests
-app.options("*", cors(corsOptions));
-
-
+// Apply CORS middleware globally
+app.use(corsMiddleware);
 
 // app.use(
 //   cors({
