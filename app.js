@@ -37,11 +37,7 @@ app.get("/", (req, res) => {
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests from specified origins or if no origin is provided (e.g., for testing)
-    if (
-      !origin || 
-      /https:\/\/book-my-movie-backend-.*\.vercel\.app/.test(origin) || 
-      origin === "https://bookmymovietickets.netlify.app"
-    ) {
+    if (origin === "https://bookmymovietickets.netlify.app") {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -49,9 +45,8 @@ const corsOptions = {
   },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true // Allow cookies and other credentials to be included
+  credentials: true, // Allow cookies and other credentials to be included
 };
-
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
@@ -60,8 +55,6 @@ app.options("*", cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Preflight request handling
-
-
 
 // app.use(
 //   cors({
