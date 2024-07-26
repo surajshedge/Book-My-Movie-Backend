@@ -112,10 +112,10 @@ app.use("/api/users", users);
 app.use("/api/auth/", authRoutes);
 app.use("/api", authenticateJWT, ticketBookingRouter);
 
-const port = process.env.PORT || 9000;
+const PORT = process.env.PORT || 9000;
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
 module.exports = app;
