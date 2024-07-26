@@ -17,10 +17,6 @@ const jwtToken = process.env.JWT_SECRET;
 console.log(jwtToken);
 connectDB();
 app.use(bodyParser.json());
-app.get("/", (req, res) => {
-  res.send("Welcome to the movie ticket booking API!");
-});
-
 // // CORS Configuration
 // const corsOptions = {
 //   origin: ["http://localhost:5173", "https://bookmymovietickets.netlify.app"],
@@ -58,28 +54,13 @@ app.get("/", (req, res) => {
 // app.use(cors(corsOptions));
 // // Handle preflight requests
 // app.options("*", cors(corsOptions));
-
-const corsMiddleware = (req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // Adjust this if you need more control
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Max-Age", "1800");
-  // res.setHeader("Access-Control-Allow-Headers", "content-type, authorization");
-  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, content-type")
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "PUT, POST, GET, DELETE, PATCH, OPTIONS"
-  );
-
-  // If this is a preflight request, respond with a success status
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(204);
-  }
-
-  next();
+const corsOptions = {
+  origin: "https://bookmymovietickets.netlify.app", // Allow this origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow cookies
 };
-
-// Apply CORS middleware globally
-app.use(corsMiddleware);
+app.use(cors(corsOptions));
 
 // app.use(
 //   cors({
@@ -124,6 +105,11 @@ const authenticateJWT = (req, res, next) => {
     next();
   });
 };
+
+app.get("/", (req, res) => {
+  res.send("Welcome to the movie ticket booking API!");
+});
+
 app.get("/protected-endpoint", authenticateJWT, (req, res) => {
   res.send("Token is valid");
 });
