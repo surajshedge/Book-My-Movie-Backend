@@ -17,7 +17,7 @@ const jwtToken = process.env.JWT_SECRET;
 console.log(jwtToken);
 connectDB();
 app.use(bodyParser.json());
-app.get("/", (req, res, next) => {
+app.get("/", (req, res) => {
   res.send("Welcome to the movie ticket booking API!");
 });
 
