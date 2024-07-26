@@ -21,6 +21,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find(); // Find all documents
+    console.log(users);
+    res.status(200).json(users); // Respond with the tickets
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching booked tickets", error });
+  }
+});
 /***********************************************************************/
 
 // Endpoint to check user availability
