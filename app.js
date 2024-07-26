@@ -53,7 +53,7 @@ app.get("/", (req, res) => {
 // };
 
 app.use(cors({
-  origin: 'https://bookmymovietickets.netlify.app', // Your frontend domain
+  origin: ['https://bookmymovietickets.netlify.app'], // Your frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
