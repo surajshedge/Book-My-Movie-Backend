@@ -1,19 +1,14 @@
-
 {
   "version": 2,
-  "builds": [
-    { "src": "./api/app.js", "use": "@vercel/node" },
-    { "src": "public/**/*", "use": "@vercel/static" }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.js" }
-  ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "commands": {
-      "build": "npm run build"
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs14.x"
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/$1.js"
+    }
+  ]
 }

@@ -4,7 +4,10 @@
   "description": "Movie Booking Project Backend",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon --watch ./api/.js --watch routes --watch models ./api/app.js"
+    "dev": "nodemon --watch ./api/.js --watch routes --watch models ./api/app.js",
+    "vercel-build": "echo World",
+     "start": "node index.js"
+
   },
   "author": "Suraj Shedge",
   "license": "ISC",

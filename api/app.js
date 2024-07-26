@@ -17,6 +17,9 @@ const jwtToken = process.env.JWT_SECRET;
 console.log(jwtToken);
 connectDB();
 app.use(bodyParser.json());
+app.get("/", (req, res, next) => {
+  res.send("Welcome to the movie ticket booking API!");
+});
 
 // CORS Configuration
 const corsOptions = {
@@ -74,9 +77,6 @@ const authenticateJWT = (req, res, next) => {
     next();
   });
 };
-app.get("/", (req, res, next) => {
-  res.send("Welcome to the movie ticket booking API!");
-});
 app.get("/protected-endpoint", authenticateJWT, (req, res) => {
   res.send("Token is valid");
 });
