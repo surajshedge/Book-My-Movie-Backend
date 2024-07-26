@@ -21,18 +21,46 @@ app.get("/", (req, res, next) => {
   res.send("Welcome to the movie ticket booking API!");
 });
 
-// CORS Configuration
+// // CORS Configuration
+// const corsOptions = {
+//   origin: ["http://localhost:5173", "https://bookmymovietickets.netlify.app"],
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// };
+
+// // Apply CORS middleware
+// app.use(cors(corsOptions));
+
+// // Handle preflight requests
+// app.options("*", cors(corsOptions));
+
+
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://bookmymovietickets.netlify.app"],
+  origin: (origin, callback) => {
+    // Allow requests from specified origins or if no origin is provided (e.g., for testing)
+    if (
+      !origin ||
+      /https:\/\/book-my-movie-tickets-.*\.vercel\.app/.test(origin) ||
+      origin === "https://bookmymovietickets.netlify.app"
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-
 // Handle preflight requests
 app.options("*", cors(corsOptions));
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Preflight request handling
+
+
 
 // app.use(
 //   cors({
