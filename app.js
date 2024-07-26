@@ -1,13 +1,13 @@
 // // app.js
-const connectDB = require("../database/db");
+const connectDB = require("./database/db");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const users = require("../routes/users");
+const users = require("./routes/users");
 const morgan = require("morgan"); // Import morgan
 const cors = require("cors"); // Import cors
-const authRoutes = require("../routes/auth");
-const ticketBookingRouter = require("../routes/ticketBookingRouter");
+const authRoutes = require("./routes/auth");
+const ticketBookingRouter = require("./routes/ticketBookingRouter");
 const jwt = require("jsonwebtoken");
 
 // Middleware
