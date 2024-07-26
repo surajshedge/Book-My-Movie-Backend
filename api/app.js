@@ -18,6 +18,43 @@ console.log(jwtToken);
 connectDB();
 app.use(bodyParser.json());
 
+// CORS Configuration
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://bookmymovietickets.netlify.app"],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options("*", cors(corsOptions));
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "http://another-allowed-origin.com",
+//       "https://bookmymovietickets.netlify.app",
+//     ],
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+// app.options("*", cors()); // Preflight requests handling
+
+// app.options(
+//   "*",
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "https://bookmymovietickets.netlify.app",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
 // Routes
 const authenticateJWT = (req, res, next) => {
   const authHeader = req.header("Authorization");
@@ -37,29 +74,9 @@ const authenticateJWT = (req, res, next) => {
     next();
   });
 };
-
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://another-allowed-origin.com",
-      "https://z032glnb-5173.inc1.devtunnels.ms",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.options(
-  "*",
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://z032glnb-5173.inc1.devtunnels.ms",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.get("/", (req, res, next) => {
+  res.send("Welcome to the movie ticket booking API!");
+});
 app.get("/protected-endpoint", authenticateJWT, (req, res) => {
   res.send("Token is valid");
 });
